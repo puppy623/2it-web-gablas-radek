@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furina de Fontaine | Vládkyně všech vod</title>
+    <meta name="description"
+        content="Pocta Furině de Fontaine, Bohyni spravedlnosti. Prozkoumejte její příběh, dualitu a nekonečné představení.">
+    <meta name="keywords" content="Furina, Genshin Impact, Fontaine, Archon, Hydro, Web">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;600&family=Parisienne&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'furina-dark': '#0f172a',
+                        'furina-blue': '#1e3a8a',
+                        'furina-accent': '#60a5fa',
+                        'furina-gold': '#fbbf24',
+                        'ousia': '#1e1b4b',
+                        'pneuma': '#f0f9ff',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        script: ['Parisienne', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-furina-dark text-white overflow-x-hidden selection:bg-furina-accent selection:text-white">
+
+    <body class="bg-furina-dark text-white overflow-x-hidden selection:bg-furina-accent selection:text-white">
+
+        <!-- Loading Screen -->
+        <div id="loader"
+            class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-1000">
+            <div class="relative w-24 h-24 mb-4">
+                <!-- Hydro Symbol -->
+                <div
+                    class="hydro-symbol animate-pulse absolute inset-0 rounded-full border-4 border-furina-accent shadow-[0_0_20px_rgba(96,165,250,0.5)]">
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center text-furina-accent font-serif text-3xl">
+                    💧
+                </div>
+            </div>
+            <div class="loading-bar w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+                <div id="progress"
+                    class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 w-0 transition-all duration-300 ease-out">
+                </div>
+            </div>
+            <p class="mt-4 font-serif text-gray-400 tracking-widest text-sm uppercase">Načítání...</p>
+        </div>
+
+        <!-- Navigation (Hidden initially) -->
+        <nav
+            class="fixed top-0 w-full p-6 z-40 flex justify-between items-center mix-blend-difference opacity-0 nav-hidden transition-opacity duration-1000 delay-500">
+            <div class="text-xl font-serif font-bold tracking-wider">FURINA</div>
+            <div class="hidden md:flex space-x-8 font-sans text-sm tracking-widest uppercase">
+                <a href="#hero" class="hover:text-furina-accent transition-colors">Premiéra</a>
+                <a href="#story" class="hover:text-furina-accent transition-colors">Příběh</a>
+                <a href="#abilities" class="hover:text-furina-accent transition-colors">Schopnosti</a>
+            </div>
+        </nav>
+
+        <!-- Canvas Background for Water Effects -->
+        <canvas id="water-canvas"
+            class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-60"></canvas>
+
+        <!-- Hero Section -->
+        <section id="hero" class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+            <!-- Background with parallax -->
+            <div class="absolute inset-0 z-0">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-furina-dark z-10"></div>
+                <!-- Using new background image -->
+                <img src="assets/thumb-1920-1353124.webp" alt="Fontaine Background"
+                    class="w-full h-full object-cover opacity-60 scale-150 parallax-bg" data-speed="0.2">
+            </div>
+
+            <!-- Main Character -->
+            <div class="absolute inset-0 z-10 flex items-end justify-center md:items-center">
+                <!-- Using new character image (Assuming webp is the char/vertical shot, or treating as such) -->
+                <img src="assets/wp14229565.webp" alt="Furina"
+                    class="w-full h-full object-cover hero-char opacity-0 transition-all duration-1000 ease-out">
+            </div>
+
+            <!-- Text Overlay -->
+            <div class="relative z-20 text-center space-y-4 mix-blend-overlay md:mix-blend-normal">
+                <h2
+                    class="text-furina-accent font-script text-3xl md:text-5xl opacity-0 hero-text translate-y-5 strong-text-shadow">
+                    Vládkyně všech vod</h2>
+                <h1
+                    class="text-5xl md:text-9xl font-serif font-bold text-white tracking-tighter opacity-0 hero-text translate-y-5 strong-text-shadow filter">
+                    FURINA
+                </h1>
+                <p
+                    class="font-sans text-sm md:text-base tracking-[0.3em] uppercase opacity-0 hero-text translate-y-5 strong-text-shadow font-bold">
+                    De Fontaine
+                </p>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 z-20 animate-bounce">
+                <svg class="w-6 h-6 text-furina-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Quote Section -->
+        <section class="min-h-[50vh] flex items-center justify-center relative py-20 px-6">
+            <blockquote class="text-center max-w-4xl relative z-10">
+                <p class="font-serif text-2xl md:text-4xl italic leading-relaxed text-blue-100 opacity-80"
+                    data-aos="fade-up">
+                    "Jmenuji se Furina de Fontaine! <br>
+                    A je mi potěšením vás přivítat v <span class="text-furina-accent">Opera Epiclese</span>."
+                </p>
+            </blockquote>
+        </section>
+
+        <!-- Story Section -->
+        <section id="story" class="py-24 relative overflow-hidden">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-1 max-w-4xl mx-auto items-center text-center">
+                    <div class="space-y-8" data-aos="fade-up">
+                        <h2 class="text-4xl md:text-6xl font-serif font-bold text-blue-50 drop-shadow-lg">
+                            Bohyně <span class="text-furina-accent">Spravedlnosti?</span>
+                        </h2>
+                        <p class="text-lg leading-relaxed text-gray-300 font-light">
+                            Po 500 let hrála roli dokonalého boha. Představení bez jediné chyby, hnané zoufalou nadějí
+                            zachránit svůj lid před proroctvím potopy.
+                        </p>
+                        <p class="text-lg leading-relaxed text-gray-300 font-light">
+                            Pod okázalým zevnějškem a divadelními gesty se skrývá duše tížená nemožným tajemstvím,
+                            snášející nekonečnou samotu ve světle reflektorů.
+                        </p>
+                        <div class="h-1 w-20 bg-furina-accent mx-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Abilities Section (Formerly Duality) -->
+        <section id="abilities" class="py-24 bg-gradient-to-b from-furina-dark to-slate-900 relative">
+            <div class="container mx-auto px-6 text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-serif font-bold mb-4">Arkhe: <span class="text-white">Ousia</span>
+                </h2>
+                <p class="text-gray-400">Její excelence v boji i na jevišti.</p>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+                id="ability-cards">
+                <!-- Cards styled for Dark Mode by default -->
+                <div
+                    class="p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:bg-white/10 group hover:-translate-y-2">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">⚔️</div>
+                    <h3 class="text-xl font-serif font-bold mb-2">Salon Solitaire</h3>
+                    <p class="text-sm text-gray-400">Vyvolá hosty Salonu: Gentilhomme Usher, Surintendante Chevalmarin a
+                        Mademoiselle Crabaletta, kteří útočí na nepřátele.</p>
+                </div>
+                <div
+                    class="p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:bg-white/10 group hover:-translate-y-2">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">💧</div>
+                    <h3 class="text-xl font-serif font-bold mb-2">Singer of Many Waters</h3>
+                    <p class="text-sm text-gray-400">Vyvolá Pěvce Mnoha Vod, který léčí okolní aktivní postavy v
+                        pravidelných intervalech.</p>
+                </div>
+                <div
+                    class="p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:bg-white/10 group hover:-translate-y-2">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">🎭</div>
+                    <h3 class="text-xl font-serif font-bold mb-2">Let the People Rejoice</h3>
+                    <p class="text-sm text-gray-400">Způsobí, že celá parta vstoupí do stavu "Universal Revelry" a začne
+                        hromadit Fanfare body.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Play Section -->
+        <section id="why-play" class="py-24 relative z-10 bg-black/20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12 text-white drop-shadow-lg"
+                    data-aos="fade-up">Proč hrát <span class="text-furina-accent">Furinu?</span></h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                    <!-- Pros -->
+                    <div class="bg-gradient-to-br from-indigo-900/40 to-slate-900/40 border border-blue-500/30 p-8 rounded-xl backdrop-blur-sm transition-transform hover:scale-[1.01]"
+                        data-aos="fade-right">
+                        <h3
+                            class="text-2xl font-serif font-bold mb-6 text-blue-300 flex items-center gap-3 border-b border-blue-500/30 pb-4">
+                            <span class="text-3xl">+</span> Výhody
+                        </h3>
+                        <ul class="space-y-4 text-gray-300 font-light text-sm md:text-base">
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span>
+                                Excelentní off-field poškození</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span>
+                                Automatická Hydro aplikace a DMG ze Skillu (bez nutnosti ovládání)</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span>
+                                Slušný plošný zásah (AoE)</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span> 100%
+                                uptime na off-field poškození</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span>
+                                Úbytek HP aktivuje set Marechaussee Hunter a specifické zbraně</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span> Burst
+                                trvá 18s a posiluje celý tým</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span>
+                                Dynamický buff (funguje i pro postavy co používají snapshot)</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span> Hydro
+                                element je univerzální pro mnoho týmů</li>
+                            <li class="flex gap-3 items-start"><span class="text-blue-400 font-bold mt-1">✓</span> Silné
+                                rané konstelace (C1-C2)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Cons -->
+                    <div class="bg-gradient-to-br from-slate-900/40 to-gray-900/40 border border-gray-600/30 p-8 rounded-xl backdrop-blur-sm transition-transform hover:scale-[1.01]"
+                        data-aos="fade-left">
+                        <h3
+                            class="text-2xl font-serif font-bold mb-6 text-gray-400 flex items-center gap-3 border-b border-gray-600/30 pb-4">
+                            <span class="text-3xl">-</span> Nevýhody
+                        </h3>
+                        <ul class="space-y-4 text-gray-400 font-light text-sm md:text-base">
+                            <li class="flex gap-3 items-start"><span class="text-gray-500 font-bold mt-1">✕</span> Tým
+                                vyžaduje healera pro získání buffů (omezuje flexibilitu)</li>
+                            <li class="flex gap-3 items-start"><span class="text-gray-500 font-bold mt-1">✕</span> HP
+                                drain činí tým zranitelnějším</li>
+                            <li class="flex gap-3 items-start"><span class="text-gray-500 font-bold mt-1">✕</span>
+                                Pomalá a nekonzistentní Hydro aplikace oproti jiným postavám</li>
+                            <li class="flex gap-3 items-start"><span class="text-gray-500 font-bold mt-1">✕</span>
+                                Poměrně vysoké nároky na Energy Recharge</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Build Section -->
+        <section id="build" class="py-24 relative z-10">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-16 text-white drop-shadow-lg"
+                    data-aos="fade-up">
+                    Doporučený <span class="text-furina-accent">Build</span>
+                </h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+                    <!-- Infographic Image -->
+                    <div class="relative group" data-aos="fade-right">
+                        <div
+                            class="absolute inset-0 bg-blue-500/20 blur-xl group-hover:bg-blue-500/30 transition-colors duration-500 rounded-xl">
+                        </div>
+                        <img src="assets/Furina_5.4_-_euphorysm__cote.png" alt="Furina Build Guide"
+                            class="relative w-full rounded-xl border border-white/10 shadow-2xl transform transition-transform duration-500 group-hover:scale-[1.01]">
+                    </div>
+
+                    <!-- Text Info -->
+                    <div class="space-y-8" data-aos="fade-left">
+                        <div class="bg-slate-900/50 p-8 rounded-xl border border-blue-500/20 backdrop-blur-md">
+                            <h3 class="text-2xl font-serif font-bold text-blue-200 mb-4 flex items-center gap-2">
+                                <span>⚜️</span> Artefakty: Golden Troupe
+                            </h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                Absolutně nejlepším setem pro Furinu je <strong>Golden Troupe</strong>. Tento set
+                                masivně zvyšuje poškození jejího Elementálního Skillu (Salon Solitaire), který je jejím
+                                hlavním zdrojem DMG.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900/50 p-8 rounded-xl border border-blue-500/20 backdrop-blur-md">
+                            <h3 class="text-2xl font-serif font-bold text-blue-200 mb-4 flex items-center gap-2">
+                                <span>⚔️</span> Zbraně
+                            </h3>
+                            <ul class="text-gray-300 space-y-2 list-disc list-inside marker:text-furina-accent">
+                                <li><strong>Splendor of Tranquil Waters</strong> (Signature)</li>
+                                <li><strong>Festering Desire</strong> (Best F2P if owned)</li>
+                                <li><strong>Fleuve Cendre Ferryman</strong> (Fishing weapon - Best accessible F2P)</li>
+                                <li><strong>Favonius Sword</strong> (Pro komfort energie)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-900/50 p-8 rounded-xl border border-blue-500/20 backdrop-blur-md">
+                            <h3 class="text-2xl font-serif font-bold text-blue-200 mb-4 flex items-center gap-2">
+                                <span>📊</span> Priority Statů
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4 text-sm text-gray-300">
+                                <div>
+                                    <strong class="text-white block mb-1">Hlavní Staty:</strong>
+                                    Sands: HP% / ER%<br>
+                                    Goblet: HP% / Hydro DMG<br>
+                                    Circlet: Crit Rate / DMG
+                                </div>
+                                <div>
+                                    <strong class="text-white block mb-1">Substaty:</strong>
+                                    1. Energy Recharge (do ~160-180%)<br>
+                                    2. Crit Rate / Crit DMG<br>
+                                    3. HP%<br>
+                                    4. Flat HP
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 border-t border-white/10 bg-black text-center relative z-10">
+            <div class="container mx-auto px-6">
+                <p class="font-serif text-2xl mb-4 text-furina-accent">"Encore!"</p>
+                <p class="text-xs text-gray-600 font-sans">
+                    Fanouškovský obsah. Není spojeno s HoYoverse. <br>
+                    Obrázky jsou majetkem jejich příslušných vlastníků. <br>
+                    Vytvořeno pro 2IT Web Soutěž.
+                </p>
+            </div>
+        </footer>
+
+        <!-- GSAP Libraries -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+        <!-- Custom Scripts -->
+        <script src="script.js"></script>
+    </body>
+
+</html>
