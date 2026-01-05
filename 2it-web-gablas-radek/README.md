@@ -30,4 +30,4 @@ Tento projekt nevyžaduje build proces (používá CDN knihovny).
 Obrázky a informace čerpány z veřejně dostupných zdrojů Genshin Impact komunity.
 
 ## Překlad
-Překlad byl proveden pomocí Google Translate.
+Překlad byl proveden pomocí AI
